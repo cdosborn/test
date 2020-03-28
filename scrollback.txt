@@ -1,0 +1,890 @@
+admin@ip-192-168-20-206:~$ pwd
+/home/admin
+admin@ip-192-168-20-206:~$ git init test
+Initialized empty Git repository in /home/admin/test/.git/
+admin@ip-192-168-20-206:~$ cd test
+admin@ip-192-168-20-206:~/test$ ls -a
+.  ..  .git
+admin@ip-192-168-20-206:~/test$ ls -a .git/
+.  ..  HEAD  branches  config  description  hooks  info  objects  refs
+admin@ip-192-168-20-206:~/test$ cat .git/HEAD
+ref: refs/heads/master
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+admin@ip-192-168-20-206:~/test$ echo aaa > a.txt
+admin@ip-192-168-20-206:~/test$ echo aaa
+aaa
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	a.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+admin@ip-192-168-20-206:~/test$ git add a.txt 
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   a.txt
+
+admin@ip-192-168-20-206:~/test$ git commit -m "Added a.txt"
+[master (root-commit) 20b4c93] Added a.txt
+ Committer: Debian <admin@ip-192-168-20-206.ec2.internal>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+ create mode 100644 a.txt
+admin@ip-192-168-20-206:~/test$ git config --global user.name "Connor Osborn"
+admin@ip-192-168-20-206:~/test$ git config --global user.email "connor@cdosborn.com"
+admin@ip-192-168-20-206:~/test$ git log
+commit 20b4c933a74fc3693f6d98504454def3e56f2942 (HEAD -> master)
+Author: Debian <admin@ip-192-168-20-206.ec2.internal>
+Date:   Sat Mar 28 14:34:18 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git commit --amend --reset-author
+[master 8bd8929] Added a.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 a.txt
+admin@ip-192-168-20-206:~/test$ git commit  --reset-author
+fatal: --reset-author can be used only with -C, -c or --amend.
+admin@ip-192-168-20-206:~/test$ git commit -C HEAD --reset-author
+On branch master
+nothing to commit, working tree clean
+admin@ip-192-168-20-206:~/test$ git show
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea (HEAD -> master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+
+diff --git a/a.txt b/a.txt
+new file mode 100644
+index 0000000..72943a1
+--- /dev/null
++++ b/a.txt
+@@ -0,0 +1 @@
++aaa
+admin@ip-192-168-20-206:~/test$ echo 123 >> a.txt
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+aaa
+123
+admin@ip-192-168-20-206:~/test$ git log
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea (HEAD -> master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   a.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+admin@ip-192-168-20-206:~/test$ echo bbb > b.txt
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   a.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	b.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+admin@ip-192-168-20-206:~/test$ git add a.txt 
+admin@ip-192-168-20-206:~/test$ rm b.txt 
+admin@ip-192-168-20-206:~/test$ git stats
+git: 'stats' is not a git command. See 'git --help'.
+
+The most similar command is
+	status
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   a.txt
+
+admin@ip-192-168-20-206:~/test$ ls
+a.txt
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+aaa
+123
+admin@ip-192-168-20-206:~/test$ git show HEAD:a.txt
+aaa
+admin@ip-192-168-20-206:~/test$ git show :0:a.txt
+aaa
+123
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+aaa
+123
+admin@ip-192-168-20-206:~/test$ echo bbb > a.txt
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+bbb
+admin@ip-192-168-20-206:~/test$ git show HEAD:a.txt
+aaa
+admin@ip-192-168-20-206:~/test$ git show :0:a.txt
+aaa
+123
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   a.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   a.txt
+
+admin@ip-192-168-20-206:~/test$ git commit -m "Added 123"
+[master 33941b1] Added 123
+ 1 file changed, 1 insertion(+)
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+bbb
+admin@ip-192-168-20-206:~/test$ vim a.txt 
+admin@ip-192-168-20-206:~/test$ git diff
+diff --git a/a.txt b/a.txt
+index 219e3d2..c0c4d54 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,3 @@
+-aaa
+-123
++asdfasdf
++bbb
++asdf
+admin@ip-192-168-20-206:~/test$ git add -p
+diff --git a/a.txt b/a.txt
+index 219e3d2..c0c4d54 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,3 @@
+-aaa
+-123
++asdfasdf
++bbb
++asdf
+Stage this hunk [y,n,q,a,d,e,?]? q
+
+admin@ip-192-168-20-206:~/test$ fg
+bash: fg: current: no such job
+admin@ip-192-168-20-206:~/test$ vim a.txt 
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   a.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+admin@ip-192-168-20-206:~/test$ git add a.txt 
+admin@ip-192-168-20-206:~/test$ git commit -m 'Added bs
+> ^C
+admin@ip-192-168-20-206:~/test$ git commit -m 'Added bs'
+[master 9948cdd] Added bs
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+admin@ip-192-168-20-206:~/test$ git log
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee (HEAD -> master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ vim a.txt 
+admin@ip-192-168-20-206:~/test$ git add -p
+diff --git a/a.txt b/a.txt
+index f761ec1..1491c5c 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,4 @@
++123
+ bbb
++
++asdf
+Stage this hunk [y,n,q,a,d,s,e,?]? q
+
+admin@ip-192-168-20-206:~/test$ 
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+123
+bbb
+
+asdf
+admin@ip-192-168-20-206:~/test$ git add -p a.txt 
+diff --git a/a.txt b/a.txt
+index f761ec1..1491c5c 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,4 @@
++123
+ bbb
++
++asdf
+Stage this hunk [y,n,q,a,d,s,e,?]? s
+Split into 2 hunks.
+@@ -1 +1,2 @@
++123
+ bbb
+Stage this hunk [y,n,q,a,d,j,J,g,/,e,?]? y
+@@ -1 +2,3 @@
+ bbb
++
++asdf
+Stage this hunk [y,n,q,a,d,K,g,/,e,?]? n
+
+admin@ip-192-168-20-206:~/test$ 
+admin@ip-192-168-20-206:~/test$ git show :0:a.txt
+123
+bbb
+admin@ip-192-168-20-206:~/test$ git log
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee (HEAD -> master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git diff
+diff --git a/a.txt b/a.txt
+index 4fc2623..1491c5c 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,4 @@
+ 123
+ bbb
++
++asdf
+admin@ip-192-168-20-206:~/test$ ls
+a.txt
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   a.txt
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   a.txt
+
+admin@ip-192-168-20-206:~/test$ git diff
+diff --git a/a.txt b/a.txt
+index 4fc2623..1491c5c 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,4 @@
+ 123
+ bbb
++
++asdf
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+123
+bbb
+
+asdf
+admin@ip-192-168-20-206:~/test$ git log
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee (HEAD -> master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git diff 8bd8929e5 33941b1
+diff --git a/a.txt b/a.txt
+index 72943a1..219e3d2 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,2 @@
+ aaa
++123
+admin@ip-192-168-20-206:~/test$ git diff 8bd8929e5 master
+diff --git a/a.txt b/a.txt
+index 72943a1..f761ec1 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1 @@
+-aaa
++bbb
+admin@ip-192-168-20-206:~/test$ git show :0:a.txt
+123
+bbb
+admin@ip-192-168-20-206:~/test$ git diff 
+diff --git a/a.txt b/a.txt
+index 4fc2623..1491c5c 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1,4 @@
+ 123
+ bbb
++
++asdf
+admin@ip-192-168-20-206:~/test$ git diff --staged
+diff --git a/a.txt b/a.txt
+index f761ec1..4fc2623 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,2 @@
++123
+ bbb
+admin@ip-192-168-20-206:~/test$ ls
+a.txt
+admin@ip-192-168-20-206:~/test$ git reset a.txt
+Unstaged changes after reset:
+M	a.txt
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   a.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+123
+bbb
+
+asdf
+admin@ip-192-168-20-206:~/test$ git checkout a.txt
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+nothing to commit, working tree clean
+admin@ip-192-168-20-206:~/test$ ls
+a.txt
+admin@ip-192-168-20-206:~/test$ echo bbb > b.txt
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	b.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+admin@ip-192-168-20-206:~/test$ git commit -m "Added b.txt"
+On branch master
+Untracked files:
+	b.txt
+
+nothing added to commit but untracked files present
+admin@ip-192-168-20-206:~/test$ git log
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee (HEAD -> master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git add b.txt 
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   b.txt
+
+admin@ip-192-168-20-206:~/test$ git diff --staged
+diff --git a/b.txt b/b.txt
+new file mode 100644
+index 0000000..f761ec1
+--- /dev/null
++++ b/b.txt
+@@ -0,0 +1 @@
++bbb
+admin@ip-192-168-20-206:~/test$ git commit -m "Added b.txt"
+[master d587e29] Added b.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 b.txt
+admin@ip-192-168-20-206:~/test$ git remote add origin git@github.com:cdosborn/test.git
+admin@ip-192-168-20-206:~/test$ git remote -v
+origin	git@github.com:cdosborn/test.git (fetch)
+origin	git@github.com:cdosborn/test.git (push)
+admin@ip-192-168-20-206:~/test$ git remote
+origin
+admin@ip-192-168-20-206:~/test$ git push origin master:master
+The authenticity of host 'github.com (140.82.114.3)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,140.82.114.3' (RSA) to the list of known hosts.
+git@github.com: Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+admin@ip-192-168-20-206:~/test$ git remote set-url origin https://github.com/cdosborn/test.git
+admin@ip-192-168-20-206:~/test$ git push origin master:maste
+Username for 'https://github.com': cdosborn
+Password for 'https://cdosborn@github.com': 
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (11/11), 835 bytes | 835.00 KiB/s, done.
+Total 11 (delta 0), reused 0 (delta 0)
+To https://github.com/cdosborn/test.git
+ * [new branch]      master -> maste
+admin@ip-192-168-20-206:~/test$ git remote -v
+origin	https://github.com/cdosborn/test.git (fetch)
+origin	https://github.com/cdosborn/test.git (push)
+admin@ip-192-168-20-206:~/test$ ls
+a.txt  b.txt
+admin@ip-192-168-20-206:~/test$ git log
+commit d587e29559edf70aecfc772a82bafb46c1cd4e1a (HEAD -> master, origin/maste)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 15:19:32 2020 +0000
+
+    Added b.txt
+
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git branch
+* master
+admin@ip-192-168-20-206:~/test$ git checkout -b foo
+Switched to a new branch 'foo'
+admin@ip-192-168-20-206:~/test$ ls
+a.txt  b.txt
+admin@ip-192-168-20-206:~/test$ cat a.txt 
+bbb
+admin@ip-192-168-20-206:~/test$ echo aaa >> a.txt 
+admin@ip-192-168-20-206:~/test$ git add -p
+diff --git a/a.txt b/a.txt
+index f761ec1..b47d0c0 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,2 @@
+ bbb
++aaa
+Stage this hunk [y,n,q,a,d,e,?]? y
+
+admin@ip-192-168-20-206:~/test$ git add a.txt 
+admin@ip-192-168-20-206:~/test$ git diff --staged
+diff --git a/a.txt b/a.txt
+index f761ec1..b47d0c0 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,2 @@
+ bbb
++aaa
+admin@ip-192-168-20-206:~/test$ git commit -m "Added back some as"
+[foo dba380b] Added back some as
+ 1 file changed, 1 insertion(+)
+admin@ip-192-168-20-206:~/test$ git graph foo master
+* dba380b (HEAD -> foo) Added back some as                                 
+* d587e29 (origin/maste, master) Added b.txt                                        
+admin@ip-192-168-20-206:~/test$ git log master
+commit d587e29559edf70aecfc772a82bafb46c1cd4e1a (origin/maste, master)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 15:19:32 2020 +0000
+
+    Added b.txt
+
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e
+* dba380b (HEAD -> foo) Added back some as                                 
+* d587e29 (origin/maste, master) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git checkout master
+Switched to branch 'master'
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e
+* dba380b (foo) Added back some as                                 
+* d587e29 (HEAD -> master, origin/maste) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git log master
+commit d587e29559edf70aecfc772a82bafb46c1cd4e1a (HEAD -> master, origin/maste)
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 15:19:32 2020 +0000
+
+    Added b.txt
+
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:59:15 2020 +0000
+
+    Added bs
+
+commit 33941b166efae09c24358bbef43ed2d43605a9c9
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:55:18 2020 +0000
+
+    Added 123
+
+commit 8bd8929e5edcb372cc28aca6d7a47783279baeea
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 14:37:54 2020 +0000
+
+    Added a.txt
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e
+* dba380b (foo) Added back some as                                 
+* d587e29 (HEAD -> master, origin/maste) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ echo 123 >> b.txt 
+admin@ip-192-168-20-206:~/test$ git stats
+git: 'stats' is not a git command. See 'git --help'.
+
+The most similar command is
+	status
+admin@ip-192-168-20-206:~/test$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   b.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+admin@ip-192-168-20-206:~/test$ git add b.txt 
+admin@ip-192-168-20-206:~/test$ git diff --staged
+diff --git a/b.txt b/b.txt
+index f761ec1..c7969d0 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1 +1,2 @@
+ bbb
++123
+admin@ip-192-168-20-206:~/test$ git commit -m "Added some numbers"
+[master aadcd97] Added some numbers
+ 1 file changed, 1 insertion(+)
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e
+* aadcd97 (HEAD -> master) Added some numbers                                 
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 (origin/maste) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git diff master foo
+diff --git a/a.txt b/a.txt
+index f761ec1..b47d0c0 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1 +1,2 @@
+ bbb
++aaa
+diff --git a/b.txt b/b.txt
+index c7969d0..f761ec1 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1,2 +1 @@
+ bbb
+-123
+admin@ip-192-168-20-206:~/test$ git diff foo master
+diff --git a/a.txt b/a.txt
+index b47d0c0..f761ec1 100644
+--- a/a.txt
++++ b/a.txt
+@@ -1,2 +1 @@
+ bbb
+-aaa
+diff --git a/b.txt b/b.txt
+index f761ec1..c7969d0 100644
+--- a/b.txt
++++ b/b.txt
+@@ -1 +1,2 @@
+ bbb
++123
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e
+* aadcd97 (HEAD -> master) Added some numbers                                 
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 (origin/maste) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git checkout foo
+Switched to branch 'foo'
+admin@ip-192-168-20-206:~/test$ cat b.txt 
+bbb
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e
+* aadcd97 (master) Added some numbers                                 
+| * dba380b (HEAD -> foo) Added back some as                                 
+|/  
+* d587e29 (origin/maste) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ cat b.txt 
+bbb
+admin@ip-192-168-20-206:~/test$ git checkout master
+Switched to branch 'master'
+admin@ip-192-168-20-206:~/test$ cat b.txt 
+bbb
+123
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/master
+Err! this is an invalid ref: origin/master
+admin@ip-192-168-20-206:~/test$ git remote -v
+origin	https://github.com/cdosborn/test.git (fetch)
+origin	https://github.com/cdosborn/test.git (push)
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+* aadcd97 (HEAD -> master) Added some numbers                                 
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 (origin/maste) Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git fetch origin
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From https://github.com/cdosborn/test
+   d587e29..90140b2  maste      -> origin/maste
+admin@ip-192-168-20-206:~/test$ 
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+* 90140b2 (origin/maste) Create c.txt                                       
+| * aadcd97 (HEAD -> master) Added some numbers                                 
+|/  
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git merge origin/maste 
+Merge made by the 'recursive' strategy.
+ c.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 c.txt
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+*   0b6557d (HEAD -> master) Merge remote-tracking branch 'origin/maste'        
+|\  
+| * 90140b2 (origin/maste) Create c.txt                                       
+* | aadcd97 Added some numbers                                 
+|/  
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git push origin master:maste
+Username for 'https://github.com': cdosborn
+Password for 'https://cdosborn@github.com': 
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://github.com/cdosborn/test.git/'
+admin@ip-192-168-20-206:~/test$ git push origin master:maste
+Username for 'https://github.com': cdosborn
+Password for 'https://cdosborn@github.com': 
+Enumerating objects: 9, done.
+Counting objects: 100% (8/8), done.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 519 bytes | 519.00 KiB/s, done.
+Total 5 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/cdosborn/test.git
+   90140b2..0b6557d  master -> maste
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+*   0b6557d (HEAD -> master, origin/maste) Merge remote-tracking branch 'origin/maste'        
+|\  
+| * 90140b2 Create c.txt                                       
+* | aadcd97 Added some numbers                                 
+|/  
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+*   0b6557d (HEAD -> master, origin/maste) Merge remote-tracking branch 'origin/maste'        
+|\  
+| * 90140b2 Create c.txt                                       
+* | aadcd97 Added some numbers                                 
+|/  
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+*   0b6557d (HEAD -> master, origin/maste) Merge remote-tracking branch 'origin/maste'        
+|\  
+| * 90140b2 Create c.txt                                       
+* | aadcd97 Added some numbers                                 
+|/  
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ git log
+commit 0b6557dbfe6f93c05fec482080a2909db10ee00e (HEAD -> master, origin/maste)
+Merge: aadcd97 90140b2
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 16:18:15 2020 +0000
+
+    Merge remote-tracking branch 'origin/maste'
+
+commit 90140b20b249d2b86644bf58d1724c61df32e9f4
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 16:14:31 2020 +0000
+
+    Create c.txt
+
+commit aadcd971a85be722e529c306064a39a5e7bec927
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 16:04:49 2020 +0000
+
+    Added some numbers
+
+commit d587e29559edf70aecfc772a82bafb46c1cd4e1a
+Author: Connor Osborn <connor@cdosborn.com>
+Date:   Sat Mar 28 15:19:32 2020 +0000
+
+    Added b.txt
+
+commit 9948cdd8c2fb31f9ac53cf88cf299a75d0b191ee
+admin@ip-192-168-20-206:~/test$ git graph foo master 8bd8929e origin/maste
+*   0b6557d (HEAD -> master, origin/maste) Merge remote-tracking branch 'origin/maste'        
+|\  
+| * 90140b2 Create c.txt                                       
+* | aadcd97 Added some numbers                                 
+|/  
+| * dba380b (foo) Added back some as                                 
+|/  
+* d587e29 Added b.txt                                        
+* 9948cdd Added bs                                           
+* 33941b1 Added 123                                          
+* 8bd8929 Added a.txt                                        
+admin@ip-192-168-20-206:~/test$ ls .git/
+COMMIT_EDITMSG  ORIG_HEAD       description     info/           refs/           
+FETCH_HEAD      branches/       hooks/          logs/           
+HEAD            config          index           objects/        
+admin@ip-192-168-20-206:~/test$ ls .git/refs/
+heads/   remotes/ tags/    
+admin@ip-192-168-20-206:~/test$ ls .git/refs/
+heads/   remotes/ tags/    
+admin@ip-192-168-20-206:~/test$ ls .git/refs/
+heads  remotes  tags
+admin@ip-192-168-20-206:~/test$ ls .git/refs/heads/
+foo  master
+admin@ip-192-168-20-206:~/test$ ls
+a.txt  b.txt  c.txt
+admin@ip-192-168-20-206:~/test$ ls .git/refs/heads/
+foo  master
+admin@ip-192-168-20-206:~/test$ cat .git/refs/heads/*
+dba380bcd608f4765eb3b5d18446afcef97b6dbb
+0b6557dbfe6f93c05fec482080a2909db10ee00e
+admin@ip-192-168-20-206:~/test$ cat .git/refs/heads/
+foo     master  
+admin@ip-192-168-20-206:~/test$ cat .git/refs/heads/
+foo     master  
+admin@ip-192-168-20-206:~/test$ cat .git/refs/heads/foo 
+dba380bcd608f4765eb3b5d18446afcef97b6dbb
+admin@ip-192-168-20-206:~/test$ 
